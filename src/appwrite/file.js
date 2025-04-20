@@ -50,9 +50,10 @@ export class FileService {
 
   getFilePreview(fileId) {
     try {
-      const file= this.storage.getFilePreview(config.appwriteBucketId, fileId);
-      console.log(file);
-      return file;
+      // const file= this.storage.getFilePreview(config.appwriteBucketId, fileId);
+      const fileUrl = this.storage.getFileDownload(config.appwriteBucketId, fileId);
+      console.log(fileUrl);
+      return fileUrl;
     } catch (error) {
       console.error(`Failed to get file preview: ${error.message}`);
       throw new Error("File preview could not be retrieved.");
