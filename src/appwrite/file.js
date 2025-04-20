@@ -23,6 +23,7 @@ export class FileService {
       if (!file.type.startsWith("image/")) {
         throw new Error("Only image files are allowed.");
       }
+      
       return await this.storage.createFile(
         config.appwriteBucketId,
         ID.unique(),
@@ -49,7 +50,9 @@ export class FileService {
 
   getFilePreview(fileId) {
     try {
-      return this.storage.getFilePreview(config.appwriteBucketId, fileId);
+      const file= this.storage.getFilePreview(config.appwriteBucketId, fileId);
+      console.log(file);
+      return file;
     } catch (error) {
       console.error(`Failed to get file preview: ${error.message}`);
       throw new Error("File preview could not be retrieved.");
