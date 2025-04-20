@@ -17,11 +17,14 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <SpeedInsights>
-    <StrictMode>
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
-    </StrictMode>
-  </SpeedInsights>
+  <StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router}>
+        {/* Wrap SpeedInsights around specific parts of your app */}
+        <SpeedInsights>
+          <App />
+        </SpeedInsights>
+      </RouterProvider>
+    </Provider>
+  </StrictMode>
 );
