@@ -18,8 +18,11 @@ const Login = () => {
   const checkActiveSession = async () => {
     try {
       const user = await authService.getCurrentUser();
-      console.log("Active session detected:", user);
-      if (user) return true; // User is already logged in
+      if (user) {
+        console.log("Active session detected:", user);
+        return true; // User is already logged in
+      }
+      else return false;
     } catch (err) {
       return false; // No active session
     }

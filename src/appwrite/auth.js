@@ -40,7 +40,9 @@ export class AuthService {
 
   async getCurrentUser() {
     try {
-      return await this.account.get();
+      const response = await this.account.get();
+      if (!response) throw new Error();
+      return response;
     } catch (error) {
       console.log(`Failed to fetch current user: ${error.message}`);
     }
