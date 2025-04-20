@@ -5,6 +5,7 @@ import { getAllPosts } from "../../store/slices/postSlice";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { logout } from "../../store/slices/authSlice";
 
 const Home = () => {
   const user = useSelector((state) => state.auth.status);
@@ -26,7 +27,7 @@ const Home = () => {
           <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-200">
             Please login to read blogs!
           </h1>
-          <div className="w-full flex justify-center m-4">
+          <div className="w-full text-center m-4">
             <Button onClick={() => navigate("/login")}> Login </Button>
           </div>
         </Container>
@@ -58,6 +59,7 @@ const Home = () => {
 
   // Handle error state
   if (error) {
+    dispatch(logout());
     return (
       <div className="min-h-[600px] flex items-center justify-center bg-gray-900 px-4">
         <Container>
