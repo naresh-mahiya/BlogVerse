@@ -1,4 +1,5 @@
 import { StrictMode } from "react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -16,9 +17,11 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <Provider store={store}>
-      <RouterProvider router={router} />
-    </Provider>
-  </StrictMode>
+  <SpeedInsights>
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </StrictMode>
+  </SpeedInsights>
 );
