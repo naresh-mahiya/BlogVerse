@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import config from "../../config/config";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import fileService from "../../appwrite/file";
 import { Button, Container } from "../../components";
@@ -37,7 +38,9 @@ export default function Post() {
     fetchPost();
   }, [id]);
 
-  const isAuthor = post && userData ? post.userId === userData.userId : false;
+  const isAuthor =
+    (post && userData ? post.userId === userData.userId : false) ||
+    userData.userId === config.adminId;
 
   const deleteHandler = async () => {
     try {
