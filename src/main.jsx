@@ -1,5 +1,6 @@
 import { StrictMode } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
+import { Analytics } from "@vercel/analytics/react"
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
@@ -20,10 +21,11 @@ createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <RouterProvider router={router}>
-        {/* Wrap SpeedInsights around specific parts of your app */}
-        <SpeedInsights>
-          <App />
-        </SpeedInsights>
+      <Analytics>
+          <SpeedInsights>
+            <App />
+          </SpeedInsights>
+        </Analytics>
       </RouterProvider>
     </Provider>
   </StrictMode>
