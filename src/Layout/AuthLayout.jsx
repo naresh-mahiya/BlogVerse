@@ -17,13 +17,13 @@ export default function Protected({ children, authentication = true }) {
   }, [authStatus, navigate, authentication]);
 
   return loading ? (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-[600px] flex items-center justify-center bg-gray-900">
       <h1 className="text-2xl font-bold text-gray-200 animate-pulse">
         Loading...
       </h1>
     </div>
   ) : (
-    <div className="min-h-screen bg-gray-900 text-gray-200 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-[600px] bg-gray-900 text-gray-200 py-6 sm:px-4  lg:px-8">
       {children}
     </div>
   );

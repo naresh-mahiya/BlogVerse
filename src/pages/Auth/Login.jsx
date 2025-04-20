@@ -3,7 +3,7 @@ import { Login as LoginComponent } from "../../components";
 
 const Login = () => {
   return (
-    <div className="min-h-screen  bg-gray-900 py-8">
+    <div className="min-h-[600px]  bg-gray-900 py-8">
       <LoginComponent />
     </div>
   );

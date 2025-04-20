@@ -102,80 +102,90 @@ export default function PostForm({ post }) {
   return (
     <form
       onSubmit={handleSubmit(submit)}
-      className="gap-6 flex  bg-gray-900 p-6 rounded-lg shadow-lg"
+      className="bg-gray-900 px-2 py-4 sm:p-6 rounded-lg shadow-lg"
     >
       {error && <p className="mt-4 text-center text-red-500">{error}</p>}
-      <div className="w-full md:w-2/3">
-        <Input
-          label="Title"
-          placeholder="Enter the title"
-          {...register("title", { required: "Title is required" })}
-          error={errors.title?.message}
-        />
-        <Input
-          label="Slug"
-          placeholder="Enter the slug"
-          {...register("slug", { required: "Slug is required" })}
-          onInput={(e) =>
-            setValue("slug", slugTransform(e.currentTarget.value), {
-              shouldValidate: true,
-            })
-          }
-          readOnly={post}
-          error={errors.slug?.message}
-        />
-        <Suspense fallback={<p className="text-gray-500">Loading editor...</p>}>
-          <RTE
-            label="Content"
-            name="content"
-            control={control}
-            defaultValue={getValues("content")}
-            rules={{ required: "Content is required" }}
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="w-full md:w-2/3">
+          <Input
+            label="Title"
+            placeholder="Enter the title"
+            {...register("title", { required: "Title is required" })}
+            error={errors.title?.message}
+            autoFocus
           />
-        </Suspense>
-        
-      </div>
-      <div className="w-full md:w-1/3">
-        <Input
-          label="Featured Image"
-          type="file"
-          accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", {
-            required: { value: !post, message: "Image is required" },
-          })}
-          onChange={handleImageChange}
-          error={errors.image?.message}
-        />
-        {featuredImage && (
-          <img
-            src={featuredImage}
-            alt="Preview"
-            className="w-full mb-6 rounded-lg shadow-md"
+          <Input
+            label="Slug"
+            placeholder="Enter the slug"
+            {...register("slug", { required: "Slug is required" })}
+            onInput={(e) =>
+              setValue("slug", slugTransform(e.currentTarget.value), {
+                shouldValidate: true,
+              })
+            }
+            readOnly={post}
+            error={errors.slug?.message}
           />
-        )}
-        <Select
-          options={["active", "inactive"]}
-          label="Status"
-          {...register("status")}
-          error={errors.status?.message}
-        />
-        <Button
-          type="submit"
-          disabled={loading}
-          className={`w-full mt-6 text-white ${
-            loading
-              ? "bg-gray-500 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
-        >
-          {post
-            ? loading
-              ? "Updating..."
-              : "Update"
-            : loading
-            ? "Submitting..."
-            : "Submit"}
-        </Button>
+          <Suspense
+            fallback={<p className="text-gray-500">Loading editor...</p>}
+          >
+            <RTE
+              label="Content"
+              name="content"
+              control={control}
+              defaultValue={getValues("content")}
+              rules={{ required: "Content is required" }}
+            />
+          </Suspense>
+        </div>
+        <div className="w-full md:w-1/3">
+          <Input
+            label="Featured Image"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", {
+              required: { value: !post, message: "Image is required" },
+            })}
+            onChange={handleImageChange}
+            error={errors.image?.message}
+          />
+          {featuredImage && (
+            <img
+              src={featuredImage}
+              alt="Preview"
+              className="w-full mb-6 rounded-lg shadow-md"
+            />
+          )}
+          <Select
+            options={["active", "inactive"]}
+            label="Status"
+            {...register("status")}
+            error={errors.status?.message}
+          />
+          <Button
+            type="submit"
+            disabled={loading}
+            className={`w-full mt-6 text-white ${
+              loading
+                ? "bg-gray-500 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600"
+            }`}
+          >
+            {post
+              ? loading
+                ? "Updating..."
+                : "Update"
+              : loading
+              ? "Submitting..."
+              : "Submit"}
+          </Button>
+          <Button
+            bgColor="bg-red-600 w-full my-4 text-white"
+            onClick={() => navigate("/my-posts")}
+          >
+            Cancel
+          </Button>
+        </div>
       </div>
     </form>
   );

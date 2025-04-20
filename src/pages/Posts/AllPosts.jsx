@@ -31,11 +31,20 @@ const AllPosts = () => {
       >
         {/* Skeleton for Image */}
         <div className="w-full mb-2 p-4">
-          <Skeleton height={192} baseColor="#374151" highlightColor="#4b5563" className="w-full rounded-t-lg" />
+          <Skeleton
+            height={192}
+            baseColor="#374151"
+            highlightColor="#4b5563"
+            className="w-full rounded-t-lg"
+          />
         </div>
         {/* Skeleton for Title */}
         <div className="p-4">
-          <Skeleton height={24} baseColor="#374151" highlightColor="#4b5563" />
+          <Skeleton
+            height={24}
+            baseColor="#374151"
+            highlightColor="#4b5563"
+          />
         </div>
       </div>
     ));
@@ -44,7 +53,7 @@ const AllPosts = () => {
   // Error state handling
   if (error) {
     return (
-      <div className="min-h-screen bg-gray-900 py-12">
+      <div className="min-h-screen bg-gray-900 py-8">
         <Container>
           <div className="text-center">
             <p className="text-red-500 text-lg mb-4" aria-live="assertive">
@@ -63,13 +72,18 @@ const AllPosts = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
+    <div className="min-h-[600px] bg-gray-900 py-8">
       <Container>
-        <h1 className="text-3xl font-bold text-gray-200 text-center mb-8">
-          {loading ? <Skeleton width={150} baseColor="#374151" highlightColor="#4b5563" /> : "My Posts"}
+        <h1 className="text-2xl font-bold text-gray-200 text-center mb-6">
+          {loading ? (
+            <Skeleton width={150} baseColor="#374151" highlightColor="#4b5563" />
+          ) : (
+            "My Posts"
+          )}
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {loading
             ? renderSkeletons()
             : posts.map((post) => <PostCard key={post.$id} post={post} />)}

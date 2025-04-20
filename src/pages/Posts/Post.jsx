@@ -53,27 +53,35 @@ export default function Post() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 py-12">
+      <div className="min-h-screen bg-gray-900 py-8 px-4">
         <Container>
+          {/* Responsive Skeleton Image */}
+          <div className="w-full mb-16 h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] rounded-lg overflow-hidden">
+            <Skeleton
+              baseColor="#374151"
+              highlightColor="#4b5563"
+              className="w-full h-full rounded-lg"
+            />
+          </div>
+
+          {/* Responsive Skeleton Title */}
+
+          <div className="w-full my-4 mb-12 px-6 md:px-10 h-[90px]  md:h-[40px] ">
+            <Skeleton
+              count={1}
+              baseColor="#374151"
+              highlightColor="#4b5563"
+              className="mx-auto h-full mb-4"
+            />
+          </div>
+
+          {/* Responsive Skeleton Content */}
           <Skeleton
-            height={600}
+            count={20}
+            height={20}
             baseColor="#374151"
             highlightColor="#4b5563"
-            className="w-full rounded-lg mb-6"
-          />
-          <Skeleton
-            width="60%"
-            height={36}
-            baseColor="#374151"
-            highlightColor="#4b5563"
-            className="mx-auto"
-          />
-          <Skeleton
-            height={24}
-            count={6}
-            baseColor="#374151"
-            highlightColor="#4b5563"
-            className="mt-6"
+            className="mb-2"
           />
         </Container>
       </div>
@@ -89,14 +97,14 @@ export default function Post() {
   }
 
   return post ? (
-    <div className="min-h-screen bg-gray-900 py-12">
+    <div className="min-h-screen bg-gray-900 py-8 px-4">
       <Container>
         <div className="mb-8 relative">
-          {/* Container to maintain consistent height */}
-          <div className="w-full h-[600px] relative rounded-lg overflow-hidden">
+          {/* Responsive Image Container */}
+          <div className="w-full h-[300px] sm:h-[400px] md:h-[600px] relative rounded-lg overflow-hidden">
             {!imageLoaded && (
               <Skeleton
-                height={600}
+                height="100%"
                 baseColor="#374151"
                 highlightColor="#4b5563"
                 className="absolute top-0 left-0 w-full h-full"
@@ -105,7 +113,7 @@ export default function Post() {
             <img
               src={fileService.getFilePreview(post.featuredImage)}
               alt={post.title}
-              className={`absolute top-0 left-0 w-full h-full object-contain rounded-lg shadow-md transition-opacity duration-500 ${
+              className={`absolute top-0 left-0 w-full h-full object-cover rounded-lg shadow-md transition-opacity duration-500 ${
                 imageLoaded ? "opacity-100" : "opacity-0"
               }`}
               loading="lazy"
@@ -114,7 +122,7 @@ export default function Post() {
           </div>
 
           {isAuthor && (
-            <div className="flex justify-end mt-4 space-x-4">
+            <div className="flex justify-end mt-4 space-x-2 sm:space-x-4">
               <Link to={`/edit-post/${post.$id}`}>
                 <Button bgColor="bg-green-500" hoverColor="hover:bg-green-600">
                   Edit
@@ -132,13 +140,33 @@ export default function Post() {
         </div>
 
         <div className="text-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-200 mb-4">
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-200 mb-4">
             {post.title}
           </h1>
         </div>
 
-        <div className="prose prose-lg max-w-none text-gray-300">
-          {parse(post.content)}
+        <div className="browser-css prose prose-lg max-w-none   text-justify md:text-left">
+          {parse(post.content, {
+            replace: (domNode) => {
+              if (domNode.type === "tag" && domNode.name === "figure") {
+                domNode.attribs.style = "text-align: center; margin: 24px 0;";
+              }
+              if (domNode.type === "tag" && domNode.name === "p") {
+                domNode.attribs.style = "margin: 16px 0; line-height: 1.8;";
+              }
+              if (domNode.type === "tag" && domNode.name === "p") {
+                domNode.attribs.style = "margin: 16px 0; line-height: 1.8;";
+              }
+              if (domNode.type === "tag" && domNode.name === "strong") {
+                domNode.attribs.style = "color:#2dd4bf   ;";
+              }
+              if (domNode.type === "tag" && domNode.name === "img") {
+                domNode.attribs.style =
+                  "display: block; margin: 16px auto; max-width: 100%; height: auto;";
+              }
+              return domNode;
+            },
+          })}
         </div>
       </Container>
     </div>

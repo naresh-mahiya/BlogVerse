@@ -47,24 +47,26 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg">
+    <div className="flex px-2 items-center justify-center min-h-[600px] bg-gray-900">
+      <div className="w-full max-w-sm sm:max-w-md p-4 sm:p-8 bg-gray-800 rounded-lg shadow-lg">
         <div className="mb-6 text-center">
-          <span className="inline-block w-20 mx-auto">
+          <span className="inline-block w-16 sm:w-20 mx-auto">
             <Logo />
           </span>
         </div>
-        <h2 className="text-3xl font-bold text-gray-100 text-center">
+        <h2 className="text-2xl sm:text-3xl font-bold text-gray-100 text-center">
           Sign in to your account
         </h2>
-        <p className="mt-4 text-gray-400 text-center">
+        <p className="mt-4 text-gray-400 text-center text-sm sm:text-base">
           Don&apos;t have an account?&nbsp;
           <Link to="/signup" className="text-blue-400 hover:underline">
             Signup
           </Link>
         </p>
         {error && (
-          <p className="mt-4 text-center text-lg text-red-500">{error}</p>
+          <p className="mt-4 text-center text-sm sm:text-lg text-red-500">
+            {error}
+          </p>
         )}
         <form onSubmit={handleSubmit(login)} className="mt-6">
           <div className="space-y-4">
@@ -95,7 +97,7 @@ const Login = () => {
               disabled={loading}
               className={`w-full ${
                 loading ? "bg-gray-600" : "bg-blue-500 hover:bg-blue-600"
-              } text-gray-100`}
+              } text-gray-100 py-2`}
             >
               {loading ? "Signing in..." : "Sign in"}
             </Button>

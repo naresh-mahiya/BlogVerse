@@ -32,16 +32,16 @@ const EditPost = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="min-h-[300px] flex items-center justify-center bg-gray-900">
         <p className="text-gray-400 text-lg">Loading post...</p>
       </div>
     );
   }
 
   return post ? (
-    <div className="min-h-screen bg-gray-900 py-12">
+    <div className=" bg-gray-900 py-12">
       <Container>
-        <div className="bg-gray-800 p-8 rounded-lg shadow-lg">
+        <div className="bg-gray-800 p-2 py-4 md:p-8 rounded-lg shadow-lg">
           <h1 className="text-2xl font-bold text-gray-200 mb-6 text-center">
             Edit Post
           </h1>
@@ -50,7 +50,7 @@ const EditPost = () => {
       </Container>
     </div>
   ) : (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900">
+    <div className="min-h-[300px] flex items-center justify-center bg-gray-900">
       <p className="text-gray-400 text-lg">Post not found.</p>
     </div>
   );

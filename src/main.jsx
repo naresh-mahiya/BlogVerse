@@ -1,7 +1,8 @@
 import { StrictMode } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { Analytics } from "@vercel/analytics/react"
+import { Analytics } from "@vercel/analytics/react";
 import { createRoot } from "react-dom/client";
+import ScrollToTop from "./pages/ScrollToTop.jsx";
 import "./index.css";
 import App from "./App.jsx";
 import { Provider } from "react-redux";
@@ -12,7 +13,12 @@ import routes from "./routes/Routes.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <>
+        <ScrollToTop />
+        <App />
+      </>
+    ),
     children: routes,
   },
 ]);
@@ -20,13 +26,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router}>
-      <Analytics>
-          <SpeedInsights>
-            <App />
-          </SpeedInsights>
-        </Analytics>
-      </RouterProvider>
+      <Analytics />
+      <SpeedInsights />
+      <RouterProvider router={router}></RouterProvider>
     </Provider>
   </StrictMode>
 );

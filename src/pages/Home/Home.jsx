@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, PostCard } from "../../components";
+import { Button, Container, PostCard } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllPosts } from "../../store/slices/postSlice";
 import { useNavigate } from "react-router-dom";
@@ -21,11 +21,14 @@ const Home = () => {
   // Handle unauthenticated state
   if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="min-h-[600px] flex items-center justify-center bg-gray-900 px-4">
         <Container>
-          <h1 className="text-3xl font-bold text-center text-gray-200">
+          <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-200">
             Please login to read blogs!
           </h1>
+          <div className="w-full flex justify-center m-4">
+            <Button onClick={() => navigate("/login")}> Login </Button>
+          </div>
         </Container>
       </div>
     );
@@ -38,7 +41,6 @@ const Home = () => {
         key={index}
         className="w-full border border-gray-700 bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-lg"
       >
-        {/* Skeleton for Image */}
         <div className="w-full mb-2 p-4">
           <Skeleton
             height={192}
@@ -47,7 +49,6 @@ const Home = () => {
             className="w-full rounded-t-lg"
           />
         </div>
-        {/* Skeleton for Title */}
         <div className="p-4">
           <Skeleton height={24} baseColor="#374151" highlightColor="#4b5563" />
         </div>
@@ -58,9 +59,9 @@ const Home = () => {
   // Handle error state
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="min-h-[600px] flex items-center justify-center bg-gray-900 px-4">
         <Container>
-          <h1 className="text-3xl font-bold text-center text-red-500">
+          <h1 className="text-2xl md:text-3xl font-bold text-center text-red-500">
             Failed to load posts. Please try again later.
           </h1>
         </Container>
@@ -71,18 +72,18 @@ const Home = () => {
   // Handle empty posts state
   if (!loading && posts.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div className="min-h-[600px] flex items-center justify-center bg-gray-900 px-4">
         <Container>
-          <h1 className="text-3xl font-bold text-center text-gray-200">
+          <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-200">
             No posts available!
           </h1>
           <div className="text-center mt-4">
-            <button
+            <Button
               onClick={() => navigate("/add-post")}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 text-sm md:text-base"
             >
               Add Post
-            </button>
+            </Button>
           </div>
         </Container>
       </div>
@@ -91,12 +92,12 @@ const Home = () => {
 
   // Render posts or skeletons
   return (
-    <div className="min-h-screen bg-gray-900 py-12">
+    <div className="min-h-[600px] bg-gray-900 py-8 px-4">
       <Container>
-        <h1 className="text-3xl font-bold text-gray-200 text-center mb-8">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-200 text-center mb-6">
           {loading ? (
             <Skeleton
-              width="20%"
+              width="50%"
               baseColor="#374151"
               highlightColor="#4b5563"
             />
@@ -104,7 +105,7 @@ const Home = () => {
             "Recent Posts"
           )}
         </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {loading
             ? renderSkeletons()
             : posts.map((post) => <PostCard key={post.$id} post={post} />)}

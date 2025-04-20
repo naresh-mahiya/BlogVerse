@@ -10,7 +10,7 @@ function App() {
       <Header />
 
       {/* Main Content */}
-      <main className="flex-grow w-full container mx-auto px-4 py-8">
+      <main className="flex-grow h-full w-full container mx-auto px-0 md:px-4 py-8">
         <Suspense fallback={<div className="text-center py-8">Loading...</div>}>
           <Outlet />
         </Suspense>
