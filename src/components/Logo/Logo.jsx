@@ -7,7 +7,7 @@ const Logo = ({ width = "50px" }) => {
         src="/logo3.jpg"
         alt="Logo"
         style={{ width: width }}
-        className="object-fill rounded-xl"
+        className="object-fill rounded-full"
       />
       <div className="flex items-center">
         <span className="text-3xl font-extrabold bg-gradient-to-r from-indigo-500 to-purple-500 text-transparent bg-clip-text">
