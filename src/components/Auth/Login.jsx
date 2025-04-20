@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login as authLogin } from "../../store/slices/authSlice";
+import { login as authLogin, logout } from "../../store/slices/authSlice";
 import { Button, Input, Logo, PasswordInput } from "../../components";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
+import authService from "../../appwrite/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,6 +14,26 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const checkActiveSession = async () => {
+    try {
+      const user = await authService.getCurrentUser();
+      console.log("Active session detected:", user);
+      if (user) return true; // User is already logged in
+    } catch (err) {
+      return false; // No active session
+    }
+  };
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const hasActiveSession = await checkActiveSession();
+      if (hasActiveSession) {
+        await dispatch(logout());
+      }
+    };
+    checkSession();
+  }, [dispatch]);
 
   const { loading, error } = useSelector((state) => state.auth);
 

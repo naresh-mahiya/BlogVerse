@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { register as registerUser } from "../../store/slices/authSlice";
 import { Button, Logo, Input, PasswordInput } from "../index";
@@ -15,6 +15,24 @@ const Signup = () => {
   } = useForm();
 
   const { loading, error } = useSelector((state) => state.auth);
+  const checkActiveSession = async () => {
+    try {
+      const user = await authService.getCurrentUser();
+      if (user) return true; // User is already logged in
+    } catch (err) {
+      return false; // No active session
+    }
+  };
+
+  useEffect(() => {
+      const checkSession = async () => {
+        const hasActiveSession = await checkActiveSession();
+        if (hasActiveSession) {
+          await dispatch(logout());
+        }
+      };
+      checkSession();
+    }, [dispatch]);
 
   const signup = async (data) => {
     try {
