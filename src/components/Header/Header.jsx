@@ -22,8 +22,8 @@ const Header = () => {
   return (
     <>
       {/* Fixed Header */}
-      <header className="fixed top-0 w-full z-50 shadow-lg bg-gray-800 text-white">
-        <Container>
+      <header className="fixed top-0 w-full px-2 z-50 shadow-lg bg-gray-800 text-white">
+        <Container className="py-2 sm:py-6">
           <nav className="flex items-center justify-between">
             {/* Logo Section */}
             <div className="mr-6">
@@ -33,7 +33,7 @@ const Header = () => {
             </div>
 
             {/* Hamburger Menu (Visible on small screens) */}
-            <div className="block p-2 md:hidden">
+            <div className="block  md:hidden">
               <button
                 onClick={toggleMenu}
                 className="text-white text-2xl px-3  rounded-lg focus:outline-none hover:text-gray-300"
@@ -45,7 +45,7 @@ const Header = () => {
 
             {/* Navigation Items */}
             <ul
-              className={`md:flex md:space-x-6 absolute md:relative top-20 w-full text-center md:top-0 left-0 md:w-auto bg-gray-800 md:bg-transparent p-6 md:p-0 transition-transform duration-300 space-y-4 md:space-y-0 ${
+              className={`md:flex md:space-x-6 absolute md:relative top-16 w-full text-center md:top-0 left-0 md:w-auto bg-gray-800 md:bg-transparent p-6 md:p-0 transition-transform duration-300 space-y-4 md:space-y-0 ${
                 isMenuOpen
                   ? "translate-y-0 opacity-100"
                   : "translate-y-[-200%] opacity-0 md:translate-y-0 md:opacity-100"
