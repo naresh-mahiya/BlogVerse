@@ -6,6 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import { logout } from "../../store/slices/authSlice";
+import HeroSection from "../../components/HeroSection";
+import FeaturesSection from "../../components/FeaturesSection";
+import CallToAction from "../../components/CallToAction";
 
 const Home = () => {
   const user = useSelector((state) => state.auth?.status);
@@ -19,18 +22,13 @@ const Home = () => {
     if (user) dispatch(getAllPosts());
   }, [dispatch, user]);
 
-  // Handle unauthenticated state
+  // Handle unauthenticated state - Show landing page
   if (!user) {
     return (
-      <div className="min-h-[600px] flex flex-col items-center justify-center bg-gray-900 px-4">
-        <Container>
-          <h1 className="text-2xl md:text-3xl font-bold text-center text-gray-200 mb-4">
-            Please login to read blogs!
-          </h1>
-          <div className="flex justify-center">
-            <Button onClick={() => navigate("/login")}> Login </Button>
-          </div>
-        </Container>
+      <div className="bg-gray-900">
+        <HeroSection />
+        <FeaturesSection />
+        <CallToAction />
       </div>
     );
   }
