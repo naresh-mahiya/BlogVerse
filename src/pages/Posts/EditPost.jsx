@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, PostForm } from "../../components";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import postService from "../../appwrite/post";
 
 const EditPost = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const post = id
-    ? useSelector((state) =>
-        state.post.data.find((post) => post.$id === id)
-      )
-    : null;
+  const [loading, setLoading] = useState(true);
+  const [post, setPost] = useState(null); // Manage post data with useState
 
-  if (!id) {
-    navigate("/");
-    return null;
+  useEffect(() => {
+    if (id) {
+      // Fetch the post data
+      const fetchPost = async () => {
+        try {
+          const fetchedPost = await postService.getPost(id);
+          setPost(fetchedPost); // Update post state
+        } catch (err) {
+          console.error("Failed to fetch post:", err);
+        } finally {
+          setLoading(false); // Stop loading
+        }
+      };
+      fetchPost();
+    } else {
+      setLoading(false);
+      navigate("/");
+    }
+  }, [id, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <p className="text-gray-400 text-lg">Loading post...</p>
+      </div>
+    );
   }
 
   return post ? (
@@ -31,7 +51,7 @@ const EditPost = () => {
     </div>
   ) : (
     <div className="min-h-screen flex items-center justify-center bg-gray-900">
-      <p className="text-gray-400 text-lg">Loading post...</p>
+      <p className="text-gray-400 text-lg">Post not found.</p>
     </div>
   );
 };
