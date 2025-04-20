@@ -41,6 +41,7 @@ const Login = () => {
   const { loading, error } = useSelector((state) => state.auth);
 
   const login = async (data) => {
+
     try {
       const response = await dispatch(authLogin(data));
       if (response.meta.requestStatus === "fulfilled") navigate("/");

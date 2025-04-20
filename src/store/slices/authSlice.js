@@ -7,15 +7,31 @@ const initialState = {
   error: null,
   loading: false,
 };
+
+//  UPDATED: login thunk now also fetches user info after session is created
 export const login = createAsyncThunk(
   "auth/login",
   async (credentials, { rejectWithValue }) => {
     try {
-      const session = await authService.login(credentials);
-      if (session) return session;
-      else throw new Error();
+      await authService.login(credentials); // just create session
+      const user = await authService.getCurrentUser(); // get actual user info
+      return user;
     } catch (error) {
       return rejectWithValue(error?.message || "Login failed");
+    }
+  }
+);
+
+// ✅ UPDATED: register thunk also fetches user info after account is created
+export const register = createAsyncThunk(
+  "auth/register",
+  async (credentials, { rejectWithValue }) => {
+    try {
+      await authService.createAccount(credentials); // create account + session
+      const user = await authService.getCurrentUser(); // get actual user info
+      return user;
+    } catch (error) {
+      return rejectWithValue(error?.message || "Registration failed");
     }
   }
 );
@@ -32,25 +48,27 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const register = createAsyncThunk(
-  "auth/register",
-  async (credentials, { rejectWithValue }) => {
+// (already correct) - fetchCurrentUser thunk
+export const fetchCurrentUser = createAsyncThunk(
+  "auth/fetchCurrentUser",
+  async (_, { rejectWithValue }) => {
     try {
-      const session = await authService.createAccount(credentials);
-      if (session) return session;
-      else throw Error();
+      const user = await authService.getCurrentUser();
+      if (user) return user;
+      else throw new Error("No active user");
     } catch (error) {
-      return rejectWithValue(error?.message || "Registration failed");
+      return rejectWithValue(error?.message || "Failed to fetch current user");
     }
   }
 );
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(login.pending, (state, action) => {
+      .addCase(login.pending, (state) => {
         state.error = null;
         state.loading = true;
       })
@@ -60,7 +78,7 @@ const authSlice = createSlice({
         state.error = null;
         state.loading = false;
         localStorage.setItem("status", true);
-        localStorage.setItem("userData", JSON.stringify(action.payload));
+        localStorage.setItem("userData", JSON.stringify(action.payload)); // ✅ stores name + email now
       })
       .addCase(login.rejected, (state, action) => {
         state.error = action.payload;
@@ -71,11 +89,11 @@ const authSlice = createSlice({
         localStorage.removeItem("userData");
       })
 
-      .addCase(logout.pending, (state, action) => {
+      .addCase(logout.pending, (state) => {
         state.error = null;
         state.loading = true;
       })
-      .addCase(logout.fulfilled, (state, action) => {
+      .addCase(logout.fulfilled, (state) => {
         state.error = null;
         state.userData = null;
         state.status = false;
@@ -92,7 +110,7 @@ const authSlice = createSlice({
         localStorage.removeItem("userData");
       })
 
-      .addCase(register.pending, (state, action) => {
+      .addCase(register.pending, (state) => {
         state.error = null;
         state.loading = true;
       })
@@ -102,13 +120,33 @@ const authSlice = createSlice({
         state.status = true;
         state.userData = action.payload;
         localStorage.setItem("status", true);
-        localStorage.setItem("userData", JSON.stringify(action.payload));
+        localStorage.setItem("userData", JSON.stringify(action.payload)); // ✅ stores name + email now
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
         state.status = false;
         state.userData = null;
+        localStorage.removeItem("status");
+        localStorage.removeItem("userData");
+      })
+
+      .addCase(fetchCurrentUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentUser.fulfilled, (state, action) => {
+        state.userData = action.payload;
+        state.status = true;
+        state.loading = false;
+        localStorage.setItem("status", true);
+        localStorage.setItem("userData", JSON.stringify(action.payload));
+      })
+      .addCase(fetchCurrentUser.rejected, (state, action) => {
+        state.userData = null;
+        state.status = false;
+        state.loading = false;
+        state.error = action.payload;
         localStorage.removeItem("status");
         localStorage.removeItem("userData");
       });

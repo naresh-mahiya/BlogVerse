@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Container, Logo, LogoutBtn } from "..";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import UserProfile from "../UserProfile/UserProfile";
 
 const Header = () => {
   const location = useLocation();
@@ -70,7 +71,9 @@ const Header = () => {
                 ))}
               {authStatus && (
                 <li>
-                  <LogoutBtn />
+                  {/* <LogoutBtn /> */}
+                  <UserProfile/>
+                  
                 </li>
               )}
             </ul>
