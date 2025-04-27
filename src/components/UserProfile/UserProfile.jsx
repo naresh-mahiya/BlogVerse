@@ -23,8 +23,6 @@ const UserProfile = () => {
     };
   }, []);
 
-  
-
   const handleLogout = async () => {
     try {
       await dispatch(logout()).unwrap();
@@ -38,7 +36,7 @@ const UserProfile = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        className="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-200"
       >
         <span className="text-white font-semibold">
           {userData?.name?.charAt(0)?.toUpperCase() || "U"}
@@ -46,16 +44,31 @@ const UserProfile = () => {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 z-50">
-          <div className="py-2">
-            <div className="px-4 py-2 border-b border-gray-700">
-              <p className="text-sm text-white font-medium">{userData?.name}</p>
-              <p className="text-xs text-gray-400">{userData?.email}</p>
+        <div className="absolute right-0 mt-2 w-72 rounded-lg shadow-xl bg-gray-800 ring-1 ring-black ring-opacity-5 z-50 overflow-hidden transform transition-all duration-200 ease-in-out">
+          {/* Profile Header */}
+          <div className="p-4 bg-gradient-to-r from-indigo-600 to-indigo-700">
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
+                <span className="text-indigo-600 text-xl font-bold">
+                  {userData?.name?.charAt(0)?.toUpperCase() || "U"}
+                </span>
+              </div>
+              <div>
+                <h3 className="text-white font-semibold text-lg">{userData?.name}</h3>
+                <p className="text-indigo-100 text-sm">{userData?.email}</p>
+              </div>
             </div>
+          </div>
+
+          {/* Menu Items */}
+          <div className="py-2">
             <button
               onClick={handleLogout}
-              className="w-full text-left px-4 py-2 text-sm text-red-400 hover:bg-gray-700"
+              className="w-full flex items-center px-4 py-3 text-sm text-gray-300 hover:bg-gray-700 transition-colors duration-200"
             >
+              <svg className="w-5 h-5 mr-3 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              </svg>
               Sign out
             </button>
           </div>
