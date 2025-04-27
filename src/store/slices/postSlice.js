@@ -7,7 +7,9 @@ const initialState = {
 };
 
 export const createPost = createAsyncThunk("posts/addPost", async (post) => {
+  
   const createdPost = await postService.createPost(post);
+  
   return createdPost;
 });
 

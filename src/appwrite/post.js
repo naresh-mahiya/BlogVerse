@@ -9,7 +9,7 @@ export class PostService {
       !config.appwriteUrl ||
       !config.appwriteProjectId ||
       !config.appwriteDatabaseId ||
-      !config.appwriteCollectionId
+      !config.appwritePostsCollectionId
     ) {
       throw new Error("Appwrite configuration is incomplete.");
     }
@@ -19,14 +19,14 @@ export class PostService {
     this.databases = new Databases(this.client);
   }
 
-  async createPost({ title, slug, content, featuredImage, status, userId }) {
+  async createPost({ title, slug, content, featuredImage, status, userId,userName }) {
     try {
       if (!title || !slug || !content) {
         throw new Error("Title, slug, and content are required.");
       }
       return await this.databases.createDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
+        config.appwritePostsCollectionId,
         ID.unique(),
         {
           title,
@@ -35,6 +35,7 @@ export class PostService {
           featuredImage,
           status,
           userId,
+          userName
         }
       );
     } catch (error) {
@@ -50,7 +51,7 @@ export class PostService {
       }
       return await this.databases.updateDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
+        config.appwritePostsCollectionId,
         id,
         {
           title,
@@ -73,7 +74,7 @@ export class PostService {
       }
       await this.databases.deleteDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
+        config.appwritePostsCollectionId,
         id
       );
       return { success: true, message: "Post deleted successfully." };
@@ -90,7 +91,7 @@ export class PostService {
       }
       return await this.databases.getDocument(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
+        config.appwritePostsCollectionId,
         id
       );
     } catch (error) {
@@ -103,7 +104,7 @@ export class PostService {
     try {
       return await this.databases.listDocuments(
         config.appwriteDatabaseId,
-        config.appwriteCollectionId,
+        config.appwritePostsCollectionId,
         queries
       );
     } catch (error) {

@@ -29,6 +29,7 @@ export class FileService {
         ID.unique(),
         file
       );
+      
     } catch (error) {
       console.error(`Failed to upload file: ${error.message}`);
       throw new Error("File upload failed. Please try again.");
@@ -52,7 +53,6 @@ export class FileService {
     try {
       // const file= this.storage.getFilePreview(config.appwriteBucketId, fileId);
       const fileUrl = this.storage.getFileDownload(config.appwriteBucketId, fileId);
-      console.log(fileUrl);
       return fileUrl;
     } catch (error) {
       console.error(`Failed to get file preview: ${error.message}`);

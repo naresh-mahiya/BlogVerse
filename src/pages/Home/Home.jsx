@@ -13,6 +13,7 @@ import CallToAction from "../../components/CallToAction";
 const Home = () => {
   const user = useSelector((state) => state.auth?.status);
   const posts = useSelector((state) => state.post?.data);
+  
   const loading = useSelector((state) => state.post?.loading);
   const error = useSelector((state) => state.post?.error);
   const dispatch = useDispatch();

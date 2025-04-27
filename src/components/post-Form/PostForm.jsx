@@ -14,7 +14,9 @@ export default function PostForm({ post }) {
   const { loading, error } = useSelector((state) => state.post);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const userId = useSelector((state) => state.auth.userData.userId);
+  const userData = useSelector((state) => state.auth.userData);
+  const userId = userData.$id;
+  const userName = userData.name;
   const { id } = useParams();
 
   const {
@@ -64,6 +66,7 @@ export default function PostForm({ post }) {
   };
 
   const submit = async (data) => {
+    
     try {
       if (post) {
         const file = data.image[0]
@@ -84,12 +87,13 @@ export default function PostForm({ post }) {
         if (response.meta.requestStatus === "fulfilled")
           navigate(`/post/${response.payload?.$id}`);
       } else {
+        
         const file = await fileService.uploadFile(data.image[0]);
-
         if (file) {
           const fileId = file.$id;
           data.featuredImage = fileId;
-          const response = await dispatch(createPost({ ...data, userId }));
+          const response = await dispatch(createPost({ ...data, userId, userName }));
+          
           if (response.meta.requestStatus === "fulfilled")
             navigate(`/post/${response.payload?.$id}`);
         }
@@ -130,6 +134,7 @@ export default function PostForm({ post }) {
             fallback={<p className="text-gray-500">Loading editor...</p>}
           >
             <RTE
+              tinymceScriptSrc={`https://cdn.tiny.cloud/1/i6owzb4v4s2g6wqmkcpwh49mhwbjiomegjiyq5nfpdnf4fwn/tinymce/6/tinymce.min.js`}
               label="Content"
               name="content"
               control={control}
